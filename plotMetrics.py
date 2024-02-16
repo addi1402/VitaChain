@@ -39,7 +39,7 @@ plt.xticks(fontname='Palatino', fontsize=10)
 plt.yticks(fontname='Palatino', fontsize=10)
 
 plt.tight_layout()
-plt.savefig('incremental_load_metrics.png')
+plt.savefig('incremental_load_metrics.svg')
 plt.show()
 
 # Read Multiple Concurrent Users Testing Metrics from CSV
@@ -67,7 +67,7 @@ plt.xticks(fontname='Palatino', fontsize=10)
 plt.yticks(fontname='Palatino', fontsize=10)
 
 plt.subplot(2, 2, 3)
-plt.plot(concurrent_users_metrics['UserCount'], concurrent_users_metrics['ConcurrentUsersGasUsed'], color='red')
+plt.plot(concurrent_users_metrics['UserCount'], concurrent_users_metrics['ConcurrentUsersGasUsed'])
 plt.title('Concurrent Users Gas Used vs User Count', **palatino_fonts)
 plt.xlabel('User Count', **palatino_font)
 plt.ylabel('Concurrent Users Gas Used', **palatino_font)
@@ -76,5 +76,5 @@ plt.xticks(fontname='Palatino', fontsize=10)
 plt.yticks(fontname='Palatino', fontsize=10)
 
 plt.tight_layout()
-plt.savefig('concurrent_users_metrics.png')
+plt.savefig('concurrent_users_metrics.svg')
 plt.show()

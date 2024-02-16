@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 const EHRContract = artifacts.require("EHRContract");
 
 contract("EHRContract Stress Testing", async (accounts) => {
@@ -13,7 +13,7 @@ contract("EHRContract Stress Testing", async (accounts) => {
     const startTime = Date.now();
 
     // Incremental Load Testing
-    const incrementalLoadTransactions = [50, 100, 150, 200, 250];
+    const incrementalLoadTransactions = [10, 25, 50, 75];
     const incrementalLoadMetrics = [];
 
     for (const numTransactions of incrementalLoadTransactions) {
@@ -25,6 +25,24 @@ contract("EHRContract Stress Testing", async (accounts) => {
           30 + i,
           i % 2 === 0 ? "Male" : "Female"
         );
+
+        // Simulate adding an image to a patient's record
+        // Read the image file as a buffer
+        const imageBuffer = fs.readFileSync("1kb.png"); // Replace with the actual path to your image file
+
+        // Convert the buffer to a hexadecimal string
+        const hexCode = imageBuffer.toString("hex");
+        const imageBytes = Buffer.from(hexCode, "hex"); // Replace "..." with your image data in hexadecimal format
+        await contract.addMedicalImage(
+          i,
+          0,
+          Date.now(),
+          imageBytes,
+          "Image Description"
+        );
+
+        // Simulate retrieving an image from a patient's record
+        const retrievedImage = await contract.getMedicalImages(i, 0);
       }
       const incrementalThroughput =
         numTransactions / ((Date.now() - startTime) / 1000);
@@ -59,11 +77,19 @@ contract("EHRContract Stress Testing", async (accounts) => {
 
     // Log metrics to a CSV file
     fs.writeFileSync(
-      'incremental_load_metrics.csv',
-      'NumTransactions,IncrementalThroughput,IncrementalLatency,IncrementalGasUsed\n' +
-      incrementalLoadMetrics.map(({ numTransactions, incrementalThroughput, incrementalLatency, incrementalGasUsed }) =>
-        `${numTransactions},${incrementalThroughput},${incrementalLatency},${incrementalGasUsed}`
-      ).join('\n')
+      "incremental_load_metrics.csv",
+      "NumTransactions,IncrementalThroughput,IncrementalLatency,IncrementalGasUsed\n" +
+        incrementalLoadMetrics
+          .map(
+            ({
+              numTransactions,
+              incrementalThroughput,
+              incrementalLatency,
+              incrementalGasUsed,
+            }) =>
+              `${numTransactions},${incrementalThroughput},${incrementalLatency},${incrementalGasUsed}`
+          )
+          .join("\n")
     );
 
     // Display metrics
@@ -77,7 +103,7 @@ contract("EHRContract Stress Testing", async (accounts) => {
 
     // Multiple Concurrent Users Testing
     const concurrentUsersTransactions = 100;
-    const concurrentUsersUserCounts = [5, 10, 15, 20, 25];  // <-- Insert here
+    const concurrentUsersUserCounts = [5, 10, 15, 20, 25]; // <-- Insert here
     const concurrentUsersMetrics = [];
 
     for (const userCount of concurrentUsersUserCounts) {
@@ -89,6 +115,24 @@ contract("EHRContract Stress Testing", async (accounts) => {
           30 + i,
           i % 2 === 0 ? "Male" : "Female"
         );
+
+        const imageBuffer = fs.readFileSync("1kb.png"); // Replace with the actual path to your image file
+
+        // Convert the buffer to a hexadecimal string
+        const hexCode = imageBuffer.toString("hex");
+
+        // Simulate adding an image to a patient's record
+        const imageBytes = Buffer.from(hexCode, "hex"); // Replace "..." with your image data in hexadecimal format
+        await contract.addMedicalImage(
+          i,
+          0,
+          Date.now(),
+          imageBytes,
+          "Image Description"
+        );
+
+        // Simulate retrieving an image from a patient's record
+        const retrievedImage = await contract.getMedicalImages(i, 0);
       }
       const concurrentUsersThroughput =
         concurrentUsersTransactions / ((Date.now() - startTime) / 1000);
@@ -124,11 +168,19 @@ contract("EHRContract Stress Testing", async (accounts) => {
 
     // Log metrics to a CSV file
     fs.writeFileSync(
-      'concurrent_users_metrics.csv',
-      'UserCount,ConcurrentUsersThroughput,ConcurrentUsersLatency,ConcurrentUsersGasUsed\n' +
-      concurrentUsersMetrics.map(({ userCount, concurrentUsersThroughput, concurrentUsersLatency, concurrentUsersGasUsed }) =>
-        `${userCount},${concurrentUsersThroughput},${concurrentUsersLatency},${concurrentUsersGasUsed}`
-      ).join('\n')
+      "concurrent_users_metrics.csv",
+      "UserCount,ConcurrentUsersThroughput,ConcurrentUsersLatency,ConcurrentUsersGasUsed\n" +
+        concurrentUsersMetrics
+          .map(
+            ({
+              userCount,
+              concurrentUsersThroughput,
+              concurrentUsersLatency,
+              concurrentUsersGasUsed,
+            }) =>
+              `${userCount},${concurrentUsersThroughput},${concurrentUsersLatency},${concurrentUsersGasUsed}`
+          )
+          .join("\n")
     );
 
     // Display metrics

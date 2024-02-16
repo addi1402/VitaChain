@@ -2,6 +2,13 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract EHRContract {
+    // Patient struct to store images
+    struct MedicalImage {
+        uint256 date;
+        bytes image; // Store the image data as bytes
+        string description;
+    }
+
     // Patient struct to store patient details
     struct Patient {
         string name;
@@ -16,6 +23,9 @@ contract EHRContract {
         string medicines;
     }
 
+    // Mapping to store medical images for each patient
+    mapping(uint256 => mapping(uint256 => MedicalImage)) public medicalImages;
+
     // Mapping to store patient details based on patient ID
     mapping(uint256 => Patient) public patients;
 
@@ -25,8 +35,17 @@ contract EHRContract {
     // Mapping to store medical records for each patient
     mapping(uint256 => mapping(uint256 => MedicalRecord)) public medicalRecords;
 
-    // Mapping to store IPFS hash for each patient's image
-    mapping(uint256 => string) public patientImages;
+
+    // Function to add a new medical image linked to a patient
+    function addMedicalImage(uint256 _patientId, uint256 _recordIndex, uint256 _date, bytes memory _image, string memory _description) public {
+        MedicalImage memory newImage = MedicalImage(_date, _image, _description);
+        medicalImages[_patientId][_recordIndex] = newImage;
+    }
+
+    // Function to retrieve all medical images of a patient's record
+    function getMedicalImages(uint256 _patientId, uint256 _recordIndex) public view returns (MedicalImage memory) {
+        return medicalImages[_patientId][_recordIndex];
+    }
 
     // Function to add a new patient
     function addPatient(uint256 _patientId, string memory _name, uint256 _age, string memory _gender) public {
@@ -41,11 +60,6 @@ contract EHRContract {
         recordCount[_patientId]++;
     }
 
-    // Function to add or update a patient's image reference
-    function addPatientImage(uint256 _patientId, string memory _imageHash) public {
-        patientImages[_patientId] = _imageHash;
-    }
-
     // Function to retrieve patient details
     function getPatientDetails(uint256 _patientId) public view returns (string memory, uint256, string memory) {
         return (patients[_patientId].name, patients[_patientId].age, patients[_patientId].gender);
@@ -58,10 +72,5 @@ contract EHRContract {
             records[i] = medicalRecords[_patientId][i];
         }
         return records;
-    }
-
-    // Function to retrieve a patient's image reference
-    function getPatientImage(uint256 _patientId) public view returns (string memory) {
-        return patientImages[_patientId];
     }
 }
