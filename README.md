@@ -73,5 +73,3 @@ This project is licensed under the [MIT License](LICENSE).
 ## References
 
 - [Research Paper (Final).pdf](Research%20Paper%20(Final).pdf) - The research paper accompanying this project.
-
-Feel free to modify this README as needed to better reflect your project's specific details, contributors, and any additional information you'd like to include.
