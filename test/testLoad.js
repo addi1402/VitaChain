@@ -13,7 +13,7 @@ contract("EHRContract Stress Testing", async (accounts) => {
     const startTime = Date.now();
 
     // Incremental Load Testing
-    const incrementalLoadTransactions = [10, 25, 50, 75];
+    const incrementalLoadTransactions = [50, 100, 150, 200, 250]    ;
     const incrementalLoadMetrics = [];
 
     for (const numTransactions of incrementalLoadTransactions) {
