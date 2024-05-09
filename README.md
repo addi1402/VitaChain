@@ -1,5 +1,3 @@
-Sure, here's a suggested GitHub README for your blockchain-based electronic health records (EHR) management project using ZoKrates:
-
 # VitaChain: Blockchain-Based EHR Management with Zero-Knowledge Proofs
 
 VitaChain is a decentralized application (dApp) that leverages blockchain technology, InterPlanetary File System (IPFS), and zero-knowledge proofs (zkSNARKs) to provide a secure and scalable solution for electronic health record (EHR) management. The project aims to enhance data privacy, security, and interoperability within the healthcare industry.
