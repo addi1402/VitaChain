@@ -69,7 +69,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 - Special thanks to the project team members: Anshika Sinha, Aakash Singh, Harsh Pailkar, Himanish Mnndrekar, and myself Aditya Patil.
 - We would also like to acknowledge the contributions of the open-source communities behind the technologies used in this project.
-
-## References
-
-- [Research Paper (Final).pdf](Research%20Paper%20(Final).pdf) - The research paper accompanying this project.
